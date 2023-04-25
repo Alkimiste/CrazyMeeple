@@ -27,7 +27,9 @@
         <img :src="article.image" :alt="article.title">
         <h2>{{ article.title }}</h2>
         <p>{{ article.description }}</p>
-        <button @click="addToCart(article)"><img src="https://img.icons8.com/pastel-glyph/512/shopping-cart--v2.png"></button>
+        <button 
+          @click="addToCart(article)"><img src="https://img.icons8.com/pastel-glyph/512/shopping-cart--v2.png">
+        </button>
         <span class="card-price">{{ article.price }} €</span>
       </div>
     </div>
