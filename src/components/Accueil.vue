@@ -13,7 +13,8 @@
     </div>
     <ul>
       <li><router-link to="/">Accueil</router-link></li>
-      <li><router-link to="/ajouter">Ajouter un jeu</router-link></li>
+      <li><router-link v-if="isAdmin" to="/ajouter-jeu">Ajouter un jeu</router-link></li>
+      <li><router-link to="/connexion">Connexion/Inscription</router-link></li>
       <li><router-link to="/contact">Contact</router-link></li>
       <li><router-link to="/panier">Panier ({{ cartCount }})</router-link></li>
     </ul>
@@ -27,8 +28,7 @@
         <img :src="article.image" :alt="article.title">
         <h2>{{ article.title }}</h2>
         <p>{{ article.description }}</p>
-        <button 
-          @click="addToCart(article)"><img src="https://img.icons8.com/pastel-glyph/512/shopping-cart--v2.png">
+        <button @click="addToCart(article)"><img src="https://img.icons8.com/pastel-glyph/512/shopping-cart--v2.png">
         </button>
         <span class="card-price">{{ article.price }} €</span>
       </div>
@@ -43,18 +43,42 @@
 import { useStore } from 'vuex'
 import { computed, onMounted } from 'vue'
 
+
+interface Article {
+  id: number;
+  quantity: number;
+  title: string;
+  description: string;
+  price: number;
+  image: string;
+}
+
+interface Props {
+  isAdmin: boolean;
+}
+
 const store = useStore()
 
 onMounted(async () => {
   await store.dispatch('fetchArticles')
 });
 
-const articles = computed(() => store.state.articles);
+const articles = computed<Article[]>(() => store.state.articles);
 
 const cartCount = computed(() => store.state.cart.length);
 
-function addToCart(article: { id: number; quantity: number; title: string; description: string; price: number; image: string; }) {
+function addToCart(article: Article) {
   store.commit('addToCart', article)
+}
+
+export { Props };
+
+export function useArticleList() {
+  return {
+    addToCart,
+    articles,
+    cartCount
+  }
 }
 </script>
 
@@ -89,6 +113,7 @@ nav {
 .logo img {
   height: 50px;
 }
+
 .logo:hover {
   transform: scale(1.5);
   transition: all 0.3s ease-in-out;
@@ -293,5 +318,4 @@ footer p {
     margin-top: 100px;
   }
 }
-
 </style>
