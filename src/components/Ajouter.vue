@@ -1,8 +1,6 @@
-
 <template>
   <div class="background"></div>
   <div>
-
     <form @submit.prevent="submitForm">
       <div class="logo">
         <a href="#"><img src="http://ledelacarteetlemeeple.e-monsite.com/medias/site/logos/dcmlogo-web-400px.png"
@@ -11,24 +9,24 @@
       <h1 class="title">Ajouter un nouveau Jeu</h1>
       <label>
         Titre:
-        <input v-model="article.title" type="text" required>
+        <input v-model.trim="article.title" type="text" required>
       </label>
       <label>
         Description:
-        <textarea v-model="article.description" required></textarea>
+        <textarea v-model.trim="article.description" required></textarea>
       </label>
       <label>
         Prix:
-        <input v-model="article.price" type="text" required pattern="^\d+(?:\.\d{1,2})?$">
+        <input v-model.number="article.price" type="number" required min="0" step="0.01">
       </label>
       <label>
         Image:
-        <input v-model="article.image" type="text" required>
+        <input v-model.trim="article.image" type="text" required>
       </label>
-      <button @click="submitForm">Ajouter</button>
-      <p v-if="errorMessage.value" class="error-message">{{ errorMessage.value }}</p>
-      <p v-if="successMessage.value" class="success-message">{{ successMessage.value }}</p>
-      <RouterLink to="/" class="router-link">Retour à l'accueil</RouterLink>
+      <button type="submit">Ajouter</button>
+      <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
+      <p v-if="successMessage" class="success-message">{{ successMessage }}</p>
+      <router-link to="/" class="router-link">Retour à l'accueil</router-link>
     </form>
   </div>
   <footer>
@@ -42,40 +40,42 @@ import { useRouter } from "vue-router";
 import { ref } from "vue";
 
 export default {
-  setup(): { article: any; submitForm: () => void; goAccueil: () => void; successMessage: any; errorMessage: any } {
+  setup() {
     const store = useStore();
     const router = useRouter();
-    const article = {
+    const article = ref({
       title: "",
       description: "",
       price: 0,
       image: "",
-    };
+    });
 
     const successMessage = ref("");
     const errorMessage = ref("");
 
     function addArticleToShop() {
-      store.dispatch("addArticle", article);
+      store.dispatch("addArticle", article.value);
       successMessage.value = "L'article a été ajouté avec succès.";
     }
 
     function submitForm() {
       if (
-        article.title === "" ||
-        article.description === "" ||
-        article.price <= 0 ||
-        article.image === ""
+        !article.value.title ||
+        !article.value.description ||
+        article.value.price <= 0 ||
+        !article.value.image
       ) {
         errorMessage.value = "Veuillez remplir tous les champs.";
-        return;
+      } else {
+        addArticleToShop();
+        article.value = {
+          title: "",
+          description: "",
+          price: 0,
+          image: "",
+        };
+        errorMessage.value = "";
       }
-      addArticleToShop();
-      article.title = "";
-      article.description = "";
-      article.price = 0;
-      article.image = "";
-      errorMessage.value = "";
     }
 
     function goAccueil() {

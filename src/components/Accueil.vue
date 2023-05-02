@@ -13,10 +13,10 @@
     </div>
     <ul>
       <li><router-link to="/">Accueil</router-link></li>
-      <li><router-link v-if="isAdmin" to="/ajouter-jeu">Ajouter un jeu</router-link></li>
+      <li><router-link to="/ajouter">Ajouter un jeu</router-link></li>
       <li><router-link to="/connexion">Connexion/Inscription</router-link></li>
       <li><router-link to="/contact">Contact</router-link></li>
-      <li><router-link to="/panier">Panier ({{ cartCount }})</router-link></li>
+      <li><router-link to="/panier">Panier {{ cartCount.value }}</router-link></li>
     </ul>
   </nav>
   <div class="title">
@@ -71,16 +71,9 @@ function addToCart(article: Article) {
   store.commit('addToCart', article)
 }
 
-export { Props };
 
-export function useArticleList() {
-  return {
-    addToCart,
-    articles,
-    cartCount
-  }
-}
 </script>
+
 
 <style scoped>
 .title {

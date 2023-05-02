@@ -41,7 +41,7 @@ export default {
         async submitForm() {
             try {
                 console.log('Formulaire soumis avec succès');
-                await axios.post('http://localhost:3001/v1/contact', {
+                await axios.post('http://localhost:3001/contact', {
                     name: this.name,
                     email: this.email,
                     message: this.message

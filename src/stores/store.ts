@@ -73,7 +73,7 @@ const store = createStore<State>({
 
   actions: {
     async addArticle({ commit, state }: ActionContext<State, State>, article: Article) {
-      await axios.post("http://localhost:3001/v1/articles", article)
+      await axios.post("http://localhost:3001/articles", article)
     },
 
     addToCart: ({ commit }, article: Article) => {
@@ -86,7 +86,7 @@ const store = createStore<State>({
 
     async fetchArticles({ commit }) {
       try {
-        const response = await axios.get('http://localhost:3001/v1/articles');
+        const response = await axios.get('http://localhost:3001/articles');
         const articles = response.data;
         commit('setArticles', articles);
       } catch (error) {
@@ -96,7 +96,7 @@ const store = createStore<State>({
 
     async login({ commit }, user: User) {
       try {
-        const response = await axios.post('http://localhost:3001/v1/login', user);
+        const response = await axios.post('http://localhost:3001/login', user);
         const data = response.data;
         commit('login', data.user);
         localStorage.setItem('token', data.token);
