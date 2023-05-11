@@ -1,27 +1,30 @@
 <template>
+    <div class="background"></div>
     <div class="contact">
-        <h1>Contactez-nous</h1>
-        <form @submit.prevent="submitForm">
-            <div class="form-group">
-                <label for="name">Nom</label>
-                <input type="text" id="name" v-model="name" required>
-            </div>
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" id="email" v-model="email" required>
-            </div>
-            <div class="form-group">
-                <label for="message">Message</label>
-                <textarea id="message" v-model="message" required></textarea>
-            </div>
-            <button type="submit">Envoyer</button>
-        </form>
-        <br>
-        <RouterLink to="/" class="router-link">Retour à l'accueil</RouterLink>
+  <h1>Contactez-nous</h1>
+  <form @submit.prevent="submitForm">
+    <div class="form-group">
+      <label for="name">Nom</label>
+      <input type="text" id="name" v-model="name" required>
     </div>
-    <footer>
-        <p>&copy; 2023 Crazy Meeple. Tous les droits sont réservés.</p>
-    </footer>
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="email" id="email" v-model="email" required>
+    </div>
+    <div class="form-group">
+      <label for="message">Message</label>
+      <textarea id="message" v-model="message" required></textarea>
+    </div>
+    <button type="submit">Envoyer</button>
+  </form>
+  <br>
+  <router-link to="/" class="router-link">Retour à l'accueil</router-link>
+</div>
+
+
+<footer>
+  <p>&copy; 2023 Crazy Meeple. Tous les droits sont réservés.</p>
+</footer>
 </template>
   
 <script lang="ts">
@@ -58,73 +61,88 @@ export default {
 
 
 </script>
-<style>
+<style scoped>
+
+.background {
+  background-image: url("https://images6.alphacoders.com/451/451028.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+}
 .contact {
-    max-width: 600px;
-    margin: 0 auto;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
-h1 {
-    font-size: 2rem;
-    margin-bottom: 2rem;
+.contact h1 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
 }
 
-.form-group {
-    margin-bottom: 1rem;
+.contact .form-group {
+  margin-bottom: 1rem;
 }
 
-label {
-    display: block;
-    font-size: 1.2rem;
-    margin-bottom: 0.5rem;
+.contact label {
+  display: block;
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
 }
 
-input[type="text"],
-input[type="email"],
-textarea {
-    width: 100%;
-    padding: 0.5rem;
-    font-size: 1rem;
-    border: 1px solid #ccc;
+.contact input[type="text"],
+.contact input[type="email"],
+.contact textarea {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
 }
 
-button[type="submit"] {
-    background-color: #007bff;
-    color: #fff;
-    padding: 0.5rem 1rem;
-    border: none;
-    border-radius: 0.25rem;
-    font-size: 1rem;
-    cursor: pointer;
+.contact button[type="submit"] {
+  background-color: #007bff;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  cursor: pointer;
 }
 
 .router-link {
-    color: #000000;
-    font-size: 20px;
-    text-decoration: none;
-    margin-top: 10px;
+  color: #000000;
+  font-size: 20px;
+  text-decoration: none;
+  margin-top: 10px;
 }
 
 .router-link:hover {
-    text-decoration: underline;
+  text-decoration: underline;
+}
+
+.logo img {
+  height: 200px;
 }
 
 footer {
-    background-color: #333;
-    color: #fff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 30px;
-
+  background-color: #333;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 30px;
 }
 
 footer p {
-    margin: 0;
-    font-size: 0.8rem;
+  margin: 0;
+  font-size: 0.8rem;
 }
 </style>

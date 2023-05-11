@@ -35,9 +35,9 @@
 </template>
 
 <script lang="ts">
-import { useStore } from "vuex";
-import { useRouter } from "vue-router";
-import { ref } from "vue";
+import { useStore } from "vuex"
+import { useRouter } from "vue-router"
+import { ref } from "vue"
 
 export default {
   setup() {

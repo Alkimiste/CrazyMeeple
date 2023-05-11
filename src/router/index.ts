@@ -1,10 +1,11 @@
-import { createRouter, createWebHistory } from 'vue-router';
-import Accueil from '../views/Accueil.vue';
-import Panier from '../views/Panier.vue';
-import Ajouter from '../views/Ajouter.vue';
-import Contact from '../views/Contact.vue';
-import Connexion from '../views/Connexion.vue';
+import { createRouter, createWebHistory } from 'vue-router'
+import Accueil from '../views/Accueil.vue'
+import Panier from '../views/Panier.vue'
+import Ajouter from '../views/Ajouter.vue'
+import Contact from '../views/Contact.vue'
+import Connexion from '../views/Connexion.vue'
 
+// Create the router instance
 const router = createRouter({
   history: createWebHistory(),
   routes: [
@@ -23,7 +24,7 @@ const router = createRouter({
       name: 'Ajouter',
       component: Ajouter,
       meta: {
-        requiresAuth: true
+        requiresAuth: true // Meta field to indicate that authentication is required to access this route
       }
     },
     {
@@ -37,32 +38,33 @@ const router = createRouter({
       component: Connexion
     }
   ]
-});
+})
 
+// Add navigation guards to the router
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    // Vérifie si l'utilisateur est connecté
+    // Check if the user is authenticated
     if (!isLoggedIn()) {
-      // Si l'utilisateur n'est pas connecté, redirige vers la page de connexion
+      // If the user is not authenticated, redirect to the login page
       next({
         name: 'Connexion',
-        query: { redirect: to.fullPath }
+        query: { redirect: to.fullPath } // Pass the current path as a query parameter to use it after login
       });
     } else {
-      // Si l'utilisateur est connecté, continue
+      // If the user is authenticated, continue
       next();
     }
   } else {
-    // Si la route ne nécessite pas d'authentification, continue
+    // If the route does not require authentication, continue
     next();
   }
 });
 
+// Replace this function with your own authentication logic
 function isLoggedIn() {
-  // Vérifie si l'utilisateur est connecté
-  // Renvoie true si l'utilisateur est connecté, false sinon
-  // Remplacez cette fonction par votre propre logique d'authentification
-  return true;
+  // Check if the user is authenticated
+  // Returns true if the user is authenticated, false otherwise
+  return true
 }
 
-export default router;
+export default router

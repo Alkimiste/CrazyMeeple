@@ -1,11 +1,12 @@
 <template>
-    <div class="background"></div>
+ <div class="background"></div>
+  <div class="container">
     <div class="form-container">
       <div class="form-login">
         <form @submit.prevent="submitLoginForm">
           <div class="logo">
-            <a href="#"><img src="http://ledelacarteetlemeeple.e-monsite.com/medias/site/logos/dcmlogo-web-400px.png"
-                alt="Logo de la marque"></a>
+            <a href="#"><img src="https://greta-cfa-aquitaine.fr/uploads/coucouc.png"
+                alt="Logo coucou"></a>
           </div>
           <h1 class="title">Connexion</h1>
           <label>
@@ -38,16 +39,19 @@
           <button>S'inscrire</button>
           <p v-if="registerErrorMessage" class="error-message">{{ registerErrorMessage }}</p>
         </form>
-        <routerLink to="/" class="router-link">Retour à l'accueil</routerLink>
       </div>
+      <router-link to="/" class="router-link">Retour à l'accueil</router-link>
     </div>
-    <footer>
-      <p>&copy; 2023 Crazy Meeple. Tous les droits sont réservés.</p>
-    </footer>
-  </template>
+  </div>
+  <footer>
+    <p>&copy; 2023 Crazy Meeple. Tous les droits sont réservés.</p>
+  </footer>
+</template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent } from "vue"
+import { useStore } from 'vuex'
+import axios from "axios"
 
 export default defineComponent({
   data() {
@@ -62,23 +66,45 @@ export default defineComponent({
         password: '',
       },
       loginErrorMessage: '',
-      registerErrorMessage: '',
-    };
+      registerErrorMessage: '', // initialisation de registerErrorMessage avec une chaîne vide
+    }
   },
   methods: {
-    submitLoginForm() {
-      // Votre logique pour la soumission du formulaire de connexion
+    async submitLoginForm() {
+      const store = useStore() // Utilisation de useStore pour accéder à l'instance de store Vuex
+      try {
+        const response = await axios.post('http://localhost:3001/users/login', this.login)
+        const data = response.data
+        console.log(response)
+        localStorage.setItem('token', data.token)
+        store.commit('login', data.user) // Utilisation de store.commit pour mettre à jour l'état dans le store Vuex
+        this.$router.push('/')
+      } catch (error) {
+        console.error(error)
+        this.loginErrorMessage = "L'email et/ou le mot de passe sont incorrects."
+      }
     },
-    submitRegisterForm() {
-      // Votre logique pour la soumission du formulaire d'inscription
+    
+    async submitRegisterForm() {
+      const store = useStore() // Utilisation de useStore pour accéder à l'instance de store Vuex
+      try {
+        const response = await axios.post('http://localhost:3001/users/signup', this.register)
+        const data = response.data
+        localStorage.setItem('token', data.token)
+        store.commit('login', data.user) // Utilisation de store.commit pour mettre à jour l'état dans le store Vuex
+        this.$router.push('/')
+      } catch (error) {
+        console.error(error)
+        this.registerErrorMessage = "Une erreur est survenue lors de l'inscription."
+      }
     },
   },
-});
+})
 </script>
 
 <style scoped>
 .background {
-  background-image: url("https://images6.alphacoders.com/451/451028.jpg");
+  background-image: url("https://www.francebleu.fr/s3/cruiser-production/2020/03/aff28855-042d-48c7-8cee-e1d33b1642ef/1200x680_gettyimages-629361705.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   position: fixed;

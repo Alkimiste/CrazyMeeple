@@ -5,18 +5,12 @@
       <a href="#"><img src="http://ledelacarteetlemeeple.e-monsite.com/medias/site/logos/dcmlogo-web-400px.png"
           alt="Logo de la marque"></a>
     </div>
-    <div class="search-bar">
-      <form action="#" method="get">
-        <input type="search" name="search" placeholder="Rechercher">
-        <button type="submit">Rechercher</button>
-      </form>
-    </div>
     <ul>
       <li><router-link to="/">Accueil</router-link></li>
       <li><router-link to="/ajouter">Ajouter un jeu</router-link></li>
       <li><router-link to="/connexion">Connexion/Inscription</router-link></li>
       <li><router-link to="/contact">Contact</router-link></li>
-      <li><router-link to="/panier">Panier {{ cartCount.value }}</router-link></li>
+      <li><router-link to="/panier">Panier ({{ cartCount }})</router-link></li>
     </ul>
   </nav>
   <div class="title">
@@ -41,7 +35,8 @@
 
 <script setup lang="ts">
 import { useStore } from 'vuex'
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, ref } from 'vue'
+
 
 
 interface Article {
@@ -63,9 +58,9 @@ onMounted(async () => {
   await store.dispatch('fetchArticles')
 });
 
-const articles = computed<Article[]>(() => store.state.articles);
+const articles = computed<Article[]>(() => store.state.articles)
 
-const cartCount = computed(() => store.state.cart.length);
+const cartCount = computed(() => store.state.cart.length)
 
 function addToCart(article: Article) {
   store.commit('addToCart', article)
@@ -287,7 +282,7 @@ footer p {
   font-size: 0.8rem;
 }
 
-/* pour les écrans de moins de 600px de largeur */
+/* for screens with a width of less than 600px */
 @media (max-width: 600px) {
   .card-container {
     grid-template-columns: repeat(1, 1fr);
@@ -295,7 +290,7 @@ footer p {
   }
 }
 
-/* pour les écrans de 600px à 900px de largeur */
+/* for screens with a width between 600px and 900px */
 @media (min-width: 600px) and (max-width: 900px) {
   .card-container {
     grid-template-columns: repeat(2, 1fr);
@@ -303,7 +298,7 @@ footer p {
   }
 }
 
-/* pour les écrans de plus de 900px de largeur */
+/* for screens with a width of more than 900px */
 @media (min-width: 900px) {
   .card-container {
     grid-template-columns: repeat(4, 1fr);
