@@ -56,17 +56,17 @@
 </template>
 
 <script setup lang="ts">
-import { useStore } from "vuex";
-import { computed } from "vue";
+import { useStore } from "vuex"
+import { computed } from "vue"
 
-const store = useStore();
+const store = useStore()
 
-const cart = computed(() => store.state.cart);
+const cart = computed(() => store.state.cart)
 
 function deleteFromCart(article: any) {
-  const index = store.state.cart.findIndex((a: any) => a === article);
+  const index = store.state.cart.findIndex((a: any) => a === article)
   if (index > -1) {
-    store.commit("deleteFromCart", article);
+    store.commit("deleteFromCart", article)
   }
 }
 
@@ -79,7 +79,7 @@ const totalPrice = computed(() =>
 );
 
 function pay() {
-  alert("Payment successful!");
+  alert("Payment successful!")
 }
 </script>
   

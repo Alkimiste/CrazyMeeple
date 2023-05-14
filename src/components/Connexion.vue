@@ -1,12 +1,11 @@
 <template>
- <div class="background"></div>
+  <div class="background"></div>
   <div class="container">
     <div class="form-container">
       <div class="form-login">
         <form @submit.prevent="submitLoginForm">
           <div class="logo">
-            <a href="#"><img src="https://greta-cfa-aquitaine.fr/uploads/coucouc.png"
-                alt="Logo coucou"></a>
+            <a href="#"><img src="https://greta-cfa-aquitaine.fr/uploads/coucouc.png" alt="Logo coucou"></a>
           </div>
           <h1 class="title">Connexion</h1>
           <label>
@@ -66,32 +65,32 @@ export default defineComponent({
         password: '',
       },
       loginErrorMessage: '',
-      registerErrorMessage: '', // initialisation de registerErrorMessage avec une chaîne vide
+      registerErrorMessage: '', 
     }
   },
   methods: {
     async submitLoginForm() {
-      const store = useStore() // Utilisation de useStore pour accéder à l'instance de store Vuex
+      const store = useStore()
       try {
         const response = await axios.post('http://localhost:3001/users/login', this.login)
         const data = response.data
         console.log(response)
         localStorage.setItem('token', data.token)
-        store.commit('login', data.user) // Utilisation de store.commit pour mettre à jour l'état dans le store Vuex
+        store.commit('auth/loginSuccess', data.user)
         this.$router.push('/')
       } catch (error) {
         console.error(error)
         this.loginErrorMessage = "L'email et/ou le mot de passe sont incorrects."
       }
     },
-    
+
     async submitRegisterForm() {
-      const store = useStore() // Utilisation de useStore pour accéder à l'instance de store Vuex
+      const store = useStore()
       try {
         const response = await axios.post('http://localhost:3001/users/signup', this.register)
-        const data = response.data
+        const data = response.data;
         localStorage.setItem('token', data.token)
-        store.commit('login', data.user) // Utilisation de store.commit pour mettre à jour l'état dans le store Vuex
+        store.commit('auth/loginSuccess', data.user)
         this.$router.push('/')
       } catch (error) {
         console.error(error)
@@ -138,7 +137,7 @@ export default defineComponent({
 }
 
 .logo img {
-  height: 200px;
+  height: 100px;
 }
 
 label {
